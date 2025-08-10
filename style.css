@@ -1,0 +1,254 @@
+body {
+    background-image: url(fundo.png);
+    font-family: Arial, sans-serif;
+}
+
+.box {
+    width: 500px;
+    max-width: 500px;
+    background-color: #000000e3;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px 0 rgba(33, 29, 29, 0.8);
+}
+
+fieldset {
+    border: none; /* Removendo borda padrão para um visual mais limpo */
+}
+
+legend {
+    border: 2px solid #8B0000;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #000000;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 1.5em;
+    text-align: center;
+    margin-bottom: 10px;
+    width: 80%;
+    margin-left: auto; /* Centraliza a legenda */
+    margin-right: auto;
+}
+
+.subtitulo-fieldset {
+    background-color: none;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 1.3em;
+    text-align: center;
+}
+
+.logo-container {
+    text-align: center;
+    padding-top: 25px;
+}
+
+#imagemlogo {
+    border: 2px solid #8B0000;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border-radius: 50px;
+}
+
+#info-container {
+    text-align: center;
+    padding: 10px;
+    color: white;
+    font-size: 20px;
+}
+
+.inputBox {
+    position: relative;
+    margin-bottom: 35px;
+}
+
+.inputUser {
+    background: none;
+    border: 1px solid #ffffff; 
+    border-radius: 10px;
+    color: #ffffff;
+    padding: 15px;
+    width: 100%;
+    outline: none;
+    font-size: 15px;
+    box-sizing: border-box;
+    resize: none;
+}
+
+.labelInput {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    pointer-events: none;
+    transition: all 0.2s ease-in-out;
+    color: #ffffff;
+}
+
+.inputUser:focus ~ .labelInput,
+.inputUser:not(:placeholder-shown) ~ .labelInput {
+    top: -25px; 
+    font-size: 15px;
+    color: #ffffff; 
+    background-color: #8B0000;
+    border: 1px solid #ffffff;
+    padding: 8px; 
+    border-radius: 10px;
+    z-index: 1;
+}
+
+.Movimentacao {
+    color: #ffffff;
+    font-size: 20px;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.radio-option label {
+    padding-left: 10px;
+    color: #ffffff;
+    font-size: 20px;
+    position: relative;
+}
+
+.radio-option input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+    margin: 0;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.radio-option input[type="radio"]:checked {
+    background-color: #8B0000; 
+    border: 1px solid white; 
+    box-shadow: 0 0 0 2px #ffffff; 
+}
+
+.submit-container {
+    text-align: center;
+}
+
+#submit {
+    background-color: #8B0000;
+    color: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+    height: 50px;
+    font-size: 1.3em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border 0.2s ease-in-out;
+}
+
+#submit:hover {
+    background-color: #ffffff;  
+    color: #8B0000;
+    border: 1px solid #ffffff;
+}
+
+/* --- Estilos AVANÇADOS para a Lista Suspensa (Opção 2) --- */
+
+/* 1. O container que nos permite posicionar a seta personalizada */
+.select-wrapper {
+  position: relative;
+}
+
+/* 2. A seta personalizada, criada com um pseudo-elemento */
+.select-wrapper::after {
+  content: ''; /* Conteúdo vazio, pois usaremos um fundo */
+  position: absolute; /* Posição absoluta em relação ao wrapper */
+  top: 50%;
+  right: 15px; /* Posição da seta a partir da direita */
+  transform: translateY(-50%); /* Alinha a seta verticalmente */
+  width: 20px; /* Largura da seta */
+  height: 20px; /* Altura da seta */
+  
+  /* A imagem da seta (um SVG branco, para não precisar de arquivos) */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  
+  /* IMPORTANTE: Impede que a seta bloqueie o clique no select */
+  pointer-events: none;
+}
+
+/* 3. Remove a aparência padrão do select, incluindo a seta original */
+select.inputUser {
+  appearance: none;         /* Padrão */
+  -webkit-appearance: none; /* Para Chrome, Safari, etc. */
+  -moz-appearance: none;    /* Para Firefox */
+  
+  /* Garante que o texto não fique por baixo da nossa nova seta */
+  padding-right: 40px; 
+}
+
+/* 4. Estiliza as opções quando a lista é aberta (igual à Opção 1) */
+select.inputUser option {
+  background: #383838;
+  color: #ffffff;
+  padding: 10px;
+}
+select.inputUser:invalid {
+  color: #ffffff; /* Deixa o texto inicial com um tom de cinza, como um placeholder */
+}
+
+#mensagem {
+    /* Estilos principais que você pediu */
+    color: #FFFFFF;             /* <<<< Define a cor do texto como BRANCO para TUDO */
+    background-color: transparent; /* <<<< Garante que NÃO haja cor de fundo */
+    border: none;                /* <<<< Remove qualquer borda */
+  
+    /* Estilos adicionais para melhor aparência */
+    padding: 10px 0;      /* Adiciona um espaço vertical para não ficar colado */
+    text-align: center;   /* Centraliza o texto da mensagem */
+    font-weight: bold;    /* Deixa o texto em negrito para dar mais destaque */
+    font-size: 1.1em;     /* Aumenta um pouco o tamanho da fonte */
+    min-height: 20px;     /* Garante que a div não "suma" quando estiver sem texto, evitando que o layout pule */
+  }
+  
+  
+
+  .container-do-botao {
+    display: flex;             
+    justify-content: center;   
+    width: 100%;               
+    margin-top: 20px;          
+}
+  .botao-estilo {
+    /* Estilos para parecer um botão */
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #8B0000;
+    color: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.3em;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none; /* Remove o sublinhado padrão do link */
+    transition: all 0.2s ease-in-out;
+}
+
+
+.botao-estilo:hover {
+    background-color: #ffffff;  
+    color: #8B0000;
+    border: 1px solid #ffffff;
+}

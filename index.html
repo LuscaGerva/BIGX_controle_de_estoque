@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Controle de Estoque | BIG X</title>
+</head> 
+<body>
+    <script>
+        // Verifica se a "chave" de login NÃO existe
+        if (sessionStorage.getItem('usuarioLogado') !== 'true') {
+            // Se não existir, exibe um alerta e expulsa o usuário
+            alert('Acesso negado. Por favor, faça o login primeiro.');
+            // Redireciona de volta para a página de login
+            window.location.href = 'login.html';
+        }
+    </script>
+    <div class="box">
+        <form name="registro" method="POST" id="form">
+            <fieldset>
+                <legend><b>Controle de Estoque</b></legend>
+                <p class="subtitulo-fieldset">BIG X <br> <br> Entrada e Saída de Produtos e Materiais <br></p>
+                
+                <div class="logo-container">
+                    <img src="Logo_BIGX.jpg" alt="Logo da Empresa" id="imagemlogo">
+                </div>
+                
+                <div id="info-container">
+                    <b>
+                        <p id="horario-atual"></p>
+                        <p id="data-atual"></p>
+                        <p id="dia-semana"></p>
+                    </b>
+                </div>
+                
+                <br><br>
+                <div class="inputBox">
+                    <div class="select-wrapper">
+                        <select name="Item" id="item-list" class="inputUser" required>
+                            <option value="" disabled selected>Carregando itens...</option>
+                        </select>
+                    </div>
+                    <label for="item-list" class="labelInput"></label>
+                </div>
+                <div class="inputBox">
+                    <textarea name="Observacao" id="observacao" class="inputUser" rows="4" placeholder=" "></textarea>
+                    <label for="observacao" class="labelInput">Observação (Opcional)</label>
+                </div>
+                <div class="select-wrapper">
+                    <select name="UnidadeMedida" id="unidade-medida" class="inputUser" required>
+                        <option value="" disabled selected>Unidade de Medida</option>
+                        <option value="unidade">Unidade (UN)</option>
+                        <option value="kilograma">Kilograma (KG)</option>
+                        <option value="grama">Grama (G)</option>
+                    </select>
+                </div>
+                <br><br>
+            <div class="inputBox">
+                <input 
+                    type="text" 
+                    name="Quantidade" 
+                    id="quantidade" 
+                    class="inputUser" 
+                    placeholder=" " 
+                    required
+                >
+                <label for="quantidade" class="labelInput">Quantidade</label>
+            </div>
+                <div class="Movimentacao">
+                    <p><b>Tipo de Movimentacao:</b></p>
+                </div>
+                
+                <div class="radio-option">
+                    <input type="radio" name="Movimentacao" id="mov_entrada" value="Entrada" required>
+                    <label for="mov_entrada">Entrada</label>
+                </div>
+                <br>
+                <div class="radio-option">
+                    <input type="radio" name="Movimentacao" id="mov_saida" value="Saida" required>
+                    <label for="mov_saida">Saida</label>
+                </div>
+                
+                <br><br>
+                
+                <p class="submit-container">
+                    <button type="submit" id="submit">Registrar</button>
+                </p>
+                
+                <div id="message"></div>
+            </fieldset>
+        </form>
+    </div>
+
+    <script>
+
+
+    //####################################################################
+    // ÓDIGO PARA CARREGAR A LISTA SUSPENSA
+    document.addEventListener('DOMContentLoaded', () => {
+        //URL DO SEU APP DA WEB 
+        const urlDoScript = "https://script.google.com/macros/s/AKfycbziaBwXbXx5bvfaIcP0Nf9rMRlz_Cg15twr8kgw--CaxaeOwrSkuVOgg8KUOH317Poj/exec"; 
+        
+        const selectElement = document.getElementById('item-list');
+        const selectLabel = document.querySelector('label[for="item-list"]');
+
+        fetch(urlDoScript)
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === 'success' && data.data.length > 0) {
+                    selectElement.innerHTML = ''; 
+
+                    // Adiciona uma opção padrão para o usuário escolher
+                    const defaultOption = document.createElement('option');
+                    defaultOption.value = "";
+                    defaultOption.textContent = "Selecione um item";
+                    defaultOption.disabled = true;
+                    defaultOption.selected = true;
+                    selectElement.appendChild(defaultOption);
+
+                    // Adiciona cada item da planilha como uma opção
+                    data.data.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item;
+                        option.textContent = item;
+                        selectElement.appendChild(option);
+                    });
+                } else {
+                    // Se não encontrar itens ou der erro
+                    selectElement.innerHTML = '<option value="" disabled selected>Nenhum item encontrado.</option>';
+                }
+            })
+            .catch(error => {
+                console.error("Erro ao buscar itens:", error);
+                selectElement.innerHTML = '<option value="" disabled selected>Erro ao carregar itens.</option>';
+            });
+    });
+
+        // CÓDIGO JAVASCRIPT ATUALIZAR HORAS
+        function atualizarHorarioEData() {
+            const agora = new Date();
+            const dia = String(agora.getDate()).padStart(2, '0');
+            const mes = String(agora.getMonth() + 1).padStart(2, '0');
+            const ano = agora.getFullYear();
+            const dataFormatada = `${dia}/${mes}/${ano}`;
+            const diasDaSemana = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
+            const diaDaSemanaNome = diasDaSemana[agora.getDay()];
+            const horas = String(agora.getHours()).padStart(2, '0');
+            const minutos = String(agora.getMinutes()).padStart(2, '0');
+            const segundos = String(agora.getSeconds()).padStart(2, '0');
+            const horarioFormatado = `${horas}:${minutos}:${segundos}`;
+
+            document.getElementById('data-atual').textContent = `Data: ${dataFormatada}`;
+            document.getElementById('dia-semana').textContent = `Dia da semana: ${diaDaSemanaNome}`;
+            document.getElementById('horario-atual').textContent = `Horário: ${horarioFormatado}`;
+        }
+        atualizarHorarioEData();
+        setInterval(atualizarHorarioEData, 1000);
+
+
+        const scriptURL = "https://script.google.com/macros/s/AKfycbziaBwXbXx5bvfaIcP0Nf9rMRlz_Cg15twr8kgw--CaxaeOwrSkuVOgg8KUOH317Poj/exec";
+        const form = document.getElementById("form");
+        const submitButton = document.getElementById("submit");
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            submitButton.disabled = true;
+            submitButton.textContent = "Registrando...";
+
+            fetch(scriptURL, {
+                method: "POST",
+                body: new FormData(form),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === "success") {
+                    window.location.href = "obrigado.html";
+                } else {
+                    throw new Error(data.error || "Ocorreu um erro desconhecido.");
+                }
+            })
+            .catch((error) => {
+                console.error("Erro no envio:", error);
+                alert("Falha ao registrar o ponto. Por favor, tente novamente.\nDetalhes: " + error.message);
+            })
+            .finally(() => {
+                // Reativa o botão independentemente do resultado
+                submitButton.disabled = false;
+                submitButton.textContent = "Registrar";
+            });
+        });
+        
+    </script>
+</body>
+</html>

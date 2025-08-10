@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="style.css">
+    <title>Login | BIG X</title>
+</head>
+
+<body>
+    <div class="box">
+        <form id="loginForm">
+            <fieldset>
+                <legend><b>Login e Senha</b></legend>
+                <br>
+                <div class="inputBox">
+                    <input type="text" id="login" name="login" required class="inputUser">
+                    <label for="login" class="labelInput">Login</label>
+                </div>
+                
+                <div class="inputBox">
+                    <input type="password" id="senha" name="senha" required class="inputUser">
+                    <label for="senha" class="labelInput">Senha</label>
+                </div>
+                
+                <p class="submit-container">
+                     <button type="submit" id="submit">Entrar</button>
+                </p>
+
+            </fieldset>
+        </form>
+        <p id="mensagem"></p>
+    </div> 
+    
+    <script>
+        // Seu script JavaScript está PERFEITO e não precisa de alterações.
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const login = document.getElementById('login').value;
+            const senha = document.getElementById('senha').value;
+            const mensagem = document.getElementById('mensagem');
+
+            mensagem.textContent = 'Verificando...';
+
+            // Substitua pela URL do seu App da Web
+            const url = 'https://script.google.com/macros/s/AKfycbydkpTVp4ZSSByRrUQMyndFVhkZfXwy0r3zemRtmh151YsvoTI4U7x5c1vLHj4GaOyUQA/exec';
+
+            fetch(`${url}?login=${encodeURIComponent(login)}&senha=${encodeURIComponent(senha)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        mensagem.textContent = 'Login bem-sucedido! Redirecionando...';
+                        sessionStorage.setItem('usuarioLogado', 'true');
+                        setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1000);
+                    } else {
+                        mensagem.textContent = 'Login ou senha incorretos.';
+                        
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                    mensagem.className = '';
+                    mensagem.textContent = 'Ocorreu um erro ao tentar fazer o login.';
+                    
+                });
+        });
+    </script>
+
+</body>
+</html>
