@@ -36,40 +36,40 @@
     </div> 
     
     <script>
-        // Seu script JavaScript está PERFEITO e não precisa de alterações.
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault();
+ document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault();
 
-            const login = document.getElementById('login').value;
-            const senha = document.getElementById('senha').value;
-            const mensagem = document.getElementById('mensagem');
+        const login = document.getElementById('login').value;
+        const senha = document.getElementById('senha').value;
+        const mensagem = document.getElementById('mensagem');
 
-            mensagem.textContent = 'Verificando...';
+        mensagem.textContent = 'Verificando...';
 
-            // Substitua pela URL do seu App da Web
-            const url = 'https://script.google.com/macros/s/AKfycbydkpTVp4ZSSByRrUQMyndFVhkZfXwy0r3zemRtmh151YsvoTI4U7x5c1vLHj4GaOyUQA/exec';
+        //URL do seu App da Web
+        const url = 'https://script.google.com/macros/s/AKfycbydkpTVp4ZSSByRrUQMyndFVhkZfXwy0r3zemRtmh151YsvoTI4U7x5c1vLHj4GaOyUQA/exec';
 
-            fetch(`${url}?login=${encodeURIComponent(login)}&senha=${encodeURIComponent(senha)}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        mensagem.textContent = 'Login bem-sucedido! Redirecionando...';
-                        sessionStorage.setItem('usuarioLogado', 'true');
-                        setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 1000);
-                    } else {
-                        mensagem.textContent = 'Login ou senha incorretos.';
-                        
-                    }
-                })
-                .catch(error => {
-                    console.error('Erro:', error);
-                    mensagem.className = '';
-                    mensagem.textContent = 'Ocorreu um erro ao tentar fazer o login.';
+        fetch(`${url}?login=${encodeURIComponent(login)}&senha=${encodeURIComponent(senha)}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    mensagem.textContent = 'Login bem-sucedido! Redirecionando...';
                     
-                });
-        });
+                    // Guarda o nome do usuário na memória
+                    sessionStorage.setItem('usuarioLogado', login);
+
+                    // Redireciona após 1 segundo
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000);
+                } else {
+                    mensagem.textContent = 'Login ou senha incorretos.';
+                }
+            }) // A corrente .then() termina aqui
+            .catch(error => { // O .catch() agora está ligado corretamente
+                console.error('Erro:', error);
+                mensagem.textContent = 'Ocorreu um erro ao tentar fazer o login.';
+            });
+    });
     </script>
 
 </body>

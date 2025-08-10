@@ -8,15 +8,6 @@
     <title>Controle de Estoque | BIG X</title>
 </head> 
 <body>
-    <script>
-        // Verifica se a "chave" de login NÃO existe
-        if (sessionStorage.getItem('usuarioLogado') !== 'true') {
-            // Se não existir, exibe um alerta e expulsa o usuário
-            alert('Acesso negado. Por favor, faça o login primeiro.');
-            // Redireciona de volta para a página de login
-            window.location.href = 'login.html';
-        }
-    </script>
     <div class="box">
         <form name="registro" method="POST" id="form">
             <fieldset>
@@ -84,6 +75,8 @@
                 
                 <br><br>
                 
+                <input type="hidden" id="usuario-logado" name="Usuario">
+
                 <p class="submit-container">
                     <button type="submit" id="submit">Registrar</button>
                 </p>
@@ -92,13 +85,25 @@
             </fieldset>
         </form>
     </div>
-
     <script>
 
 
-    //####################################################################
-    // ÓDIGO PARA CARREGAR A LISTA SUSPENSA
+
+    // CÓDIGO PARA CARREGAR A LISTA SUSPENSA
     document.addEventListener('DOMContentLoaded', () => {
+       
+        const usuarioLogado = sessionStorage.getItem('usuarioLogado');
+        // Verifica se a "chave" de login NÃO existe
+        if (!usuarioLogado) { 
+            alert('Acesso negado. Por favor, faça o login primeiro.');
+            window.location.href = 'login.html';
+            return; 
+        }
+
+        // Se a verificação passou, continua com a configuração da página:
+        // Popula o campo oculto com o nome do usuário logado
+        document.getElementById('usuario-logado').value = usuarioLogado;
+    
         //URL DO SEU APP DA WEB 
         const urlDoScript = "https://script.google.com/macros/s/AKfycbziaBwXbXx5bvfaIcP0Nf9rMRlz_Cg15twr8kgw--CaxaeOwrSkuVOgg8KUOH317Poj/exec"; 
         
